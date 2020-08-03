@@ -16,6 +16,7 @@ public class Board {
 										   108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119};
 	
 	private ArrayList<String> previousMoves = new ArrayList<>();
+	private ArrayList<String> fenStates = new ArrayList<>();
 	private char[] flatBoard = new char[64];
 	private Piece[] board = new Piece[SQUARES];
 	private String[] specialMove = {"", ""}; // To alert external interfaces to En Passant and Castling
@@ -23,8 +24,8 @@ public class Board {
 	private int kingPosWhite, kingPosBlack;
 	private boolean sideToMove = WHITE;
 	private boolean enPassant = false, castle = false;
-	private Fen fen = new Fen();
 	
+	private Fen fen;
 	
 	public Board(String initialFen) {
 		/* Why go through all the trouble?
@@ -45,6 +46,7 @@ public class Board {
 		 */
 		
 		// Setup board based on FEN
+		fenStates.add(initialFen);
 		fen = new Fen();
 		fen.decodeFen(initialFen);
 		this.flatBoard = fen.getFlatBoard();
@@ -184,8 +186,7 @@ public class Board {
 	}
 	
 	public String getCurrentFen() {
-		// implement this for 3 move rule
-		return "Not Implemented";
+		return fenStates.get(fenStates.size() - 1);
 	}
 	
 	public ArrayList<String> getPreviousMoves() {
@@ -708,6 +709,7 @@ public class Board {
 		stalemated = inStalemate(kingPos, board[kingPos].getColor());
 		
 		//System.out.println(createFen());
+		fenStates.add(createFen());
 		
 		
 		if (checked && !stalemated) {
