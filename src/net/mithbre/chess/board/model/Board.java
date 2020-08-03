@@ -4,11 +4,8 @@ import java.util.ArrayList;
 
 public class Board {
 	private final int SQUARES = 120;
-	private final boolean WHITE = true;
-	private final boolean BLACK = false;
-	private final int CHECK = -1;
-	private final int CHECKMATE = -2;
-	private final int STALEMATE = -3;
+	private final boolean WHITE = true, BLACK = false;
+	private final int CHECK = -1, CHECKMATE = -2, STALEMATE = -3;
 	private final int PROMOTEWHITE = -10;
 	private final int PROMOTEBLACK = -11;
 	private final int NORMAL = 0;
@@ -18,60 +15,16 @@ public class Board {
 											89,  90,  99, 100, 101, 102, 103, 104, 105, 106, 107,
 										   108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119};
 	
+	private ArrayList<String> previousMoves = new ArrayList<>();
+	private char[] flatBoard = new char[64];
 	private Piece[] board = new Piece[SQUARES];
 	private String[] specialMove = {"", ""}; // To alert external interfaces to En Passant and Castling
-	private char[] flatBoard = new char[64];
-	private ArrayList<String> previousMoves = new ArrayList<>();
-	private boolean sideToMove = WHITE;
-	private int kingPosWhite, kingPosBlack;
-	private boolean enPassant = false, castle = false;
 	private int halfMove = 1 , turnNum = 1, enPassantPos = 0;
+	private int kingPosWhite, kingPosBlack;
+	private boolean sideToMove = WHITE;
+	private boolean enPassant = false, castle = false;
 	private Fen fen = new Fen();
 	
-	// This was the original Constructor until Fen was implemented.
-	/*
-	public Board() {
-		board[31] = new Pawn(WHITE);
-		board[32] = new Pawn(WHITE);
-		board[33] = new Pawn(WHITE);
-		board[34] = new Pawn(WHITE);
-		board[35] = new Pawn(WHITE);
-		board[36] = new Pawn(WHITE);
-		board[37] = new Pawn(WHITE);
-		board[38] = new Pawn(WHITE);
-		
-		board[21] = new Rook(WHITE);
-		board[22] = new Knight(WHITE);
-		board[23] = new Bishop(WHITE);
-		board[24] = new Queen(WHITE);
-		board[25] = new King(WHITE);
-		board[26] = new Bishop(WHITE);
-		board[27] = new Knight(WHITE);
-		board[28] = new Rook(WHITE);
-		
-		board[81] = new Pawn(BLACK);
-		board[82] = new Pawn(BLACK);
-		board[83] = new Pawn(BLACK);
-		board[84] = new Pawn(BLACK);
-		board[85] = new Pawn(BLACK);
-		board[86] = new Pawn(BLACK);
-		board[87] = new Pawn(BLACK);
-		board[88] = new Pawn(BLACK);
-		
-		board[91] = new Rook(BLACK);
-		board[92] = new Knight(BLACK);
-		board[93] = new Bishop(BLACK);
-		board[94] = new Queen(BLACK);
-		board[95] = new King(BLACK);
-		board[96] = new Bishop(BLACK);
-		board[97] = new Knight(BLACK);
-		board[98] = new Rook(BLACK);
-
-		kingPosWhite = translatePos("e1");
-		kingPosBlack = translatePos("e8");
-		updateFlatBoard();
-	}
-	*/
 	
 	public Board(String initialFen) {
 		/* Why go through all the trouble?
