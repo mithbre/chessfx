@@ -98,6 +98,7 @@ public class ChessController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+    	promoteBar.setDisable(true);
     	TableColumn<Move, String> colWhite = new TableColumn<Move, String>("White");
     	TableColumn<Move, String> colBlack = new TableColumn<Move, String>("Black");
     	moveTable.getColumns().addAll(colWhite, colBlack);
@@ -256,6 +257,7 @@ public class ChessController implements Initializable {
     	allRectangles.add(h8);
     	
     	promoteBar.setVisible(false);
+    	promoteBar.setDisable(false);
     	
     	// make a fake movelist so I can see it working.
     	//tableView.setItems(moveList);
